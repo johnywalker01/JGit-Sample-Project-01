@@ -33,11 +33,13 @@ public class EntryPoint {
 
 //		String[] extsnArray = { "properties" };
 //		JGitUsageExample3.initGitFile("C:\\Users\\1014821\\Desktop\\test\\JGit-test-folder\\custom-git-folder", extsnArray);
+
+//		JGitUsageExample3.doICP("C:/Users/1014821/Desktop/files/Web-Pool/Angular2/test-app", GitConstants.REMOTE_URI_3);
+
+		JGitUsageExample3.doICP("C:/Users/1014821/Desktop/test/JGit-test-folder/JGit-Sample-Project-01",GitConstants.REMOTE_URI_2);
 		
-//		JGitUsageExample3.doICP("C:\\Users\\1014821\\Desktop\\files\\Web-Pool\\Angular2\\my-app");
-		
-		JGitUsageExample3.doICP("C:\\Users\\1014821\\Desktop\\test\\JGit-test-folder\\JGit-Sample-Project-01",GitConstants.REMOTE_URI_2);
-		
+//		JGitUsageExample3.cloneToLocalRepo(GitConstants.REMOTE_URI_3, "C:/Users/1014821/Desktop/files/Web-Pool/Angular2/test-app");
+
 		System.out.println("END of JGit Usage Example");
 	}
 

@@ -36,7 +36,7 @@ public class JGitUsageExample3 {
 			Git git = initGit(filePath);
 			createGitIgnore(filePath);
 			commitToLocalRepo(filePath, git);
-			printStatus(git, false, false);
+			checkStatus(git);
 			pushToRemoteRepo(git, GitConstants.REMOTE_URI, GitConstants.USERNAME, GitConstants.PASSWORD);
 			// fetchToLocalRepo(git, GitConstants.REMOTE_URI, GitConstants.USERNAME, GitConstants.PASSWORD);
 			// Git git = cloneToLocalRepo(GitConstants.REMOTE_URI, filePath);
@@ -57,7 +57,7 @@ public class JGitUsageExample3 {
 			Git git = initGit(filePath);
 			createGitIgnore(filePath);
 			commitToLocalRepo(filePath, git);
-			printStatus(git, false, false);
+			checkStatus(git);
 			pushToRemoteRepo(git, GitConstants.REMOTE_URI_2, GitConstants.USERNAME, GitConstants.PASSWORD);
 			// fetchToLocalRepo(git, GitConstants.REMOTE_URI, GitConstants.USERNAME, GitConstants.PASSWORD);
 			// Git git = cloneToLocalRepo(GitConstants.REMOTE_URI, filePath);
@@ -77,8 +77,8 @@ public class JGitUsageExample3 {
 		try {
 			Git git = initGit(filePath);
 			createGitIgnore(filePath);
+			checkStatus(git);
 			commitToLocalRepo(filePath, git);
-			printStatus(git, false, false);
 			pushToRemoteRepo(git, remoteRepo, GitConstants.USERNAME, GitConstants.PASSWORD);
 		}
 		catch (Exception e) {
@@ -237,23 +237,34 @@ public class JGitUsageExample3 {
 	 * @param printAdded set <code>true</code> for printing files with Status, <code>added</code>
 	 * @param printUntracked set <code>true</code> for printing files with Status, <code>untracked</code>
 	 */
-	private static void printStatus(Git git, boolean printAdded, boolean printUntracked) {
+	private static void checkStatus(Git git) {
 		try {
 			Status status = git.status().call();
 
-			if (printAdded) {
-				Set<String> added = status.getAdded();
-				for (String add : added) {
-					System.out.println("Added: " + add);
-				}
+			Set<String> added = status.getAdded();
+			for (String add : added) {
+				System.out.println("Added: " + add);
 			}
-			if (printUntracked) {
-				Set<String> untracked = status.getUntracked();
-				for (String untrack : untracked) {
-					System.out.println("Untracked: " + untrack);
-				}
+			
+			Set<String> untracked = status.getUntracked();
+			for (String untrack : untracked) {
+				System.out.println("Untracked: " + untrack);
 			}
-
+			
+			Set<String> changed = status.getChanged();
+			for (String change : changed) {
+				System.out.println("Changed: " + change);
+			}
+			
+			Set<String> modified = status.getModified();
+			for (String modify : modified) {
+				System.out.println("Modified: " + modify);
+			}
+			
+			Set<String> removed = status.getRemoved();
+			for (String remove : removed) {
+				System.out.println("Removed: " + remove);
+			}
 		}
 		catch (NoWorkTreeException | IOException e) {
 			e.printStackTrace();
@@ -331,33 +342,59 @@ public class JGitUsageExample3 {
 	// }
 	// }
 
-	private static Git cloneToLocalRepo(String remoteUri, String filePath) throws Exception {
+//	private static Git cloneToLocalRepo(String remoteUri, String filePath) throws Exception {
+//		try {
+//			File baseFile = new File(filePath);
+//			System.out.println("Base folder " + baseFile.getParent());
+//
+//			CloneCommand cloneCommand = Git.cloneRepository();
+//			cloneCommand.setURI(remoteUri);
+//
+//			File cloneFile = new File(baseFile.getParent(), "new-branch");
+//			if (!cloneFile.exists()) {
+//				if (!cloneFile.mkdir()) { throw new IOException("Could not create folder " + cloneFile); }
+//			}
+//			System.out.println("Branch folder " + cloneFile.getAbsolutePath());
+//
+//			cloneCommand.setDirectory(cloneFile);
+//			// for printing progress of the cloning
+//			cloneCommand.setProgressMonitor(new TextProgressMonitor(new PrintWriter(System.out)));
+//
+//			Git git = cloneCommand.call();
+//			System.out.println("----- CLONE-ing Completed -----");
+//			return git;
+//
+//		}
+//		catch (Exception e) {
+//			e.printStackTrace();
+//			throw new Exception(e);
+//		}
+//	}
+
+	public static Git cloneToLocalRepo(String remoteUri, String filePath) {
+		Git git = null;
 		try {
-			File baseFile = new File(filePath);
-			System.out.println("Base folder " + baseFile.getParent());
+			File cloneDir = new File(filePath);
+			System.out.println("Clone folder " + cloneDir);
+			if (!cloneDir.exists()) {
+				if (!cloneDir.mkdir()) { throw new IOException("Could not create folder " + cloneDir); }
+			}
 
 			CloneCommand cloneCommand = Git.cloneRepository();
 			cloneCommand.setURI(remoteUri);
+			cloneCommand.setDirectory(cloneDir);
 
-			File cloneFile = new File(baseFile.getParent(), "new-branch");
-			if (!cloneFile.exists()) {
-				if (!cloneFile.mkdir()) { throw new IOException("Could not create folder " + cloneFile); }
-			}
-			System.out.println("Branch folder " + cloneFile.getAbsolutePath());
-
-			cloneCommand.setDirectory(cloneFile);
 			// for printing progress of the cloning
 			cloneCommand.setProgressMonitor(new TextProgressMonitor(new PrintWriter(System.out)));
 
-			Git git = cloneCommand.call();
+			git = cloneCommand.call();
 			System.out.println("----- CLONE-ing Completed -----");
-			return git;
 
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e);
 		}
+		return git;
 	}
 
 }
