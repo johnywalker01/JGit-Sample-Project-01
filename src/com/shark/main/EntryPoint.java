@@ -1,5 +1,6 @@
 package com.shark.main;
 
+import com.shark.gitPack.GitConstants;
 import com.shark.gitPack.JGitUsageExample3;
 
 public class EntryPoint {
@@ -35,7 +36,7 @@ public class EntryPoint {
 		
 //		JGitUsageExample3.doICP("C:\\Users\\1014821\\Desktop\\files\\Web-Pool\\Angular2\\my-app");
 		
-		JGitUsageExample3.doICP("C:\\Users\\1014821\\Desktop\\test\\JGit-test-folder\\JGit-Sample-Project-01");
+		JGitUsageExample3.doICP("C:\\Users\\1014821\\Desktop\\test\\JGit-test-folder\\JGit-Sample-Project-01",GitConstants.REMOTE_URI_2);
 		
 		System.out.println("END of JGit Usage Example");
 	}

@@ -73,13 +73,13 @@ public class JGitUsageExample3 {
 	 * 
 	 * @param filePath
 	 */
-	public static void doICP(String filePath) {
+	public static void doICP(String filePath, String remoteRepo) {
 		try {
 			Git git = initGit(filePath);
 			createGitIgnore(filePath);
 			commitToLocalRepo(filePath, git);
 			printStatus(git, false, false);
-			pushToRemoteRepo(git, GitConstants.REMOTE_URI_3, GitConstants.USERNAME, GitConstants.PASSWORD);
+			pushToRemoteRepo(git, remoteRepo, GitConstants.USERNAME, GitConstants.PASSWORD);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
