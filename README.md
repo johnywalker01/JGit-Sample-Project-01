@@ -1,2 +1,4 @@
 # JGit-Sample-Project-01
-This java project (app run in cmd prompt) is developed to understand  the JGIT operations.
+This project contains some examples how to use jgit (http://eclipse.org/jgit/).
+
+Documentation to jgit can be found at http://wiki.eclipse.org/JGit/User_Guide.
